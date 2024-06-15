@@ -1,0 +1,62 @@
+syntax = "proto2";
+
+package jraft;
+
+option java_outer_classname = "ForumOutter";
+option java_package = "rs.raf.projekat.rpc";
+
+message ForumResponse {
+  optional bool success = 1;
+  optional string error_msg = 2;
+  optional string redirect = 3;
+  optional string message = 4;
+  repeated Topic topics = 5;
+  repeated Comment comments = 6;
+}
+
+message Topic {
+  required int32 id = 1;
+  required string content = 3;
+  repeated Comment comments = 4;
+}
+
+message Comment {
+  required int32 id = 1;
+  required int32 topic_id = 2;
+  required string content = 3;
+  optional int32 parent_id = 4; // comment replies
+  required int64 timestamp = 5;
+}
+
+message ReplyToComment {
+  required int32 comment_id = 1;
+  required string reply = 2;
+  required int32 topic_id = 3;
+}
+
+message NewTopicRequest {
+  required bool read_only_safe = 1 [default = true];
+  required string content = 2;
+}
+
+message SendNewCommentToTopic {
+  required int32 topic_id = 1;
+  required string comment = 2;
+}
+
+message GetTopicCommentsRequest {
+  required int32 topic_id = 1;
+}
+
+message UpdateMyCommentRequest {
+  required int32 comment_id = 1;
+  required string new_content = 2;
+  required int32 topic_id = 3;
+}
+
+message DeleteMyCommentRequest {
+  required int32 comment_id = 1;
+  required int32 topic_id = 2;
+}
+
+
